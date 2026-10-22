@@ -1,0 +1,93 @@
+/* VEN Infraestructure — tokens del brand kit
+   Copiar a src/styles/tokens.css. Fuente de verdad del diseño. */
+
+:root {
+  /* Color */
+  --ven-blue: #0B2FAA;        /* bloques de marca, titulares, botón primario */
+  --ven-navy: #061A66;        /* texto principal, texto sobre amarillo */
+  --ink-soft: #1C2A5E;        /* párrafos largos sobre blanco */
+  --blue-500: #3A57C9;        /* etiquetas mono sobre blanco */
+  --blue-300: #7F98F0;        /* solo decorativo: letras escaneando en el hero */
+  --blue-200: #C9D4F7;        /* etiquetas sobre azul, líneas finas sobre blanco */
+  --blue-100: #DCE4FF;        /* párrafos sobre azul */
+  --blue-50:  #E4E9FA;        /* separadores de lista */
+  --blue-25:  #F3F6FE;        /* hover de filas */
+  --white:    #FFFFFF;
+  --signal-yellow: #FFC20E;   /* acento ≤5 %; nunca texto sobre blanco */
+  --grid-on-blue: rgba(255, 255, 255, 0.08);
+  --rule-on-blue: rgba(255, 255, 255, 0.35);
+
+  /* Tipografía */
+  --font-sans: "Poppins", system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --fw-text: 500;
+  --fw-head: 600;
+
+  --fs-cell: clamp(22px, 5vw, 76px);
+  --fs-footer: clamp(40px, 5vw, 72px);
+  --fs-h2: clamp(30px, 3.4vw, 48px);
+  --fs-tagline: clamp(22px, 2.8vw, 40px);
+  --fs-h3: 32px;
+  --fs-h4: 24px;
+  --fs-lead: 18px;
+  --fs-body: 17px;
+  --fs-nav: 16px;
+  --fs-button: 17px;
+  --fs-label: 12px;
+
+  --ls-display: -0.045em;
+  --ls-head: -0.035em;
+  --ls-label: 0.06em;
+
+  /* Espaciado */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;   /* gutter de página */
+  --space-7: 40px;   /* paso de la cuadrícula de plano */
+  --space-8: 56px;
+  --space-9: 96px;   /* padding vertical de sección */
+  --container: 1360px;
+
+  /* Forma */
+  --radius: 0;
+  --border-hairline: 1px;
+  --border-rule: 2px;
+
+  /* Movimiento */
+  --ease-out-ven: cubic-bezier(.2, .8, .2, 1);
+  --ease-draw: cubic-bezier(.65, 0, .25, 1);
+  --dur-fast: 300ms;
+  --dur-draw: 2000ms;
+}
+
+/* Patrones reutilizables */
+.blueprint {
+  background-color: var(--ven-blue);
+  background-image:
+    linear-gradient(var(--grid-on-blue) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-on-blue) 1px, transparent 1px);
+  background-size: var(--space-7) var(--space-7);
+  background-position: -1px -1px;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+}
+
+:focus-visible {
+  outline: 3px solid var(--signal-yellow);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

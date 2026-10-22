@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VEN · Referencia de diseño · Inicio</title>
+<!-- Referencia visual (dirección F). No es código de producción: reconstruir en Astro según PROMPT.md. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;900&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#0B2FAA}a:hover{color:#061A66}
+.mono{font-family:'Geist Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.bp{background-color:#0B2FAA;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:40px 40px;background-position:-1px -1px}
+.cells{display:grid;grid-template-columns:repeat(11,minmax(0,1fr));border-top:1px solid rgba(255,255,255,.35);border-left:1px solid rgba(255,255,255,.35)}
+.cell{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border-right:1px solid rgba(255,255,255,.35);border-bottom:1px solid rgba(255,255,255,.35);font-weight:600;font-size:clamp(22px,5vw,76px);line-height:1;letter-spacing:-0.02em;color:#FFFFFF;background:#0B2FAA;transition:background-color .35s,color .35s;position:relative}
+.cell.scr{color:#7F98F0}
+.cell.hot{background:#FFC20E;color:#061A66}
+.cell:hover{background:#FFFFFF;color:#0B2FAA}
+.cell::after{content:"";position:absolute;left:6px;top:6px;width:5px;height:5px;border-left:1px solid rgba(255,255,255,.5);border-top:1px solid rgba(255,255,255,.5)}
+.draw{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2s cubic-bezier(.65,0,.25,1) forwards .6s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.fade{opacity:0;animation:fade 1.2s ease forwards}
+.f1{animation-delay:.2s}.f2{animation-delay:1.2s}.f3{animation-delay:1.6s}
+@keyframes fade{to{opacity:1}}
+.btn{transition:background-color .3s,color .3s,gap .3s cubic-bezier(.2,.8,.2,1)}
+.btnY:hover{background-color:#FFC20E;color:#061A66;gap:20px}
+.btnW:hover{background-color:#FFC20E;color:#061A66;gap:20px}
+.link{text-decoration:none;background-image:linear-gradient(#FFC20E,#FFC20E);background-size:0 3px;background-position:0 100%;background-repeat:no-repeat;padding-bottom:4px;transition:background-size .35s cubic-bezier(.2,.8,.2,1)}
+.link:hover{background-size:100% 3px}
+.srv{transition:background-color .4s}
+.srv:hover{background-color:#F3F6FE}
+.srv:hover .mk{width:48px}
+.mk{display:inline-block;width:12px;height:12px;background:#FFC20E;transition:width .45s cubic-bezier(.2,.8,.2,1)}
+.node{transition:transform .4s cubic-bezier(.2,.8,.2,1),background-color .3s}
+.ph:hover .node{transform:rotate(45deg);background-color:#FFC20E;border-color:#FFC20E}
+.spread{transition:letter-spacing .7s cubic-bezier(.2,.8,.2,1)}
+.spread:hover{letter-spacing:.04em}
+.mod{transition:background-color .3s,color .3s}
+.mod:hover{background-color:#FFC20E;color:#061A66}
+.mod:hover .ml{color:#061A66}
+@media (prefers-reduced-motion:reduce){.draw{animation:none;stroke-dashoffset:0}.fade{animation:none;opacity:1}}
+</style>
+</head>
+<body>
+<div style="font-family: Poppins, system-ui, sans-serif; color: #061A66; background: #FFFFFF">
+
+  <!-- HERO AZUL -->
+  <section class="bp" style="color: #FFFFFF">
+    <header style="max-width: 1360px; margin: 0 auto; padding: 22px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px">
+      <a href="#f-top" aria-label="VEN infraestructure, inicio" style="text-decoration: none; color: #FFFFFF; display: flex; flex-direction: column; line-height: 1">
+        <span style="font-weight: 900; font-size: 36px; letter-spacing: -0.04em">ven</span>
+        <span style="font-weight: 600; font-size: 11.5px">infraestructure</span>
+      </a>
+      <nav aria-label="Principal" style="display: flex; flex-wrap: wrap; align-items: center; gap: 30px; font-size: 16px; font-weight: 600">
+        <a class="link" href="#f-serv" style="color: #FFFFFF">servicios</a>
+        <a class="link" href="#f-metodo" style="color: #FFFFFF">método</a>
+        <a class="link" href="#f-app" style="color: #FFFFFF">app ven</a>
+        <a class="link" href="#f-contacto" style="color: #FFFFFF">contacto</a>
+        <a class="btn btnW" href="#f-app" style="text-decoration: none; background: #FFFFFF; color: #0B2FAA; padding: 12px 20px; font-weight: 600; display: inline-flex; align-items: center; gap: 12px; min-height: 44px; box-sizing: border-box">acceso empleados
+          <svg width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><polyline points="4,1 10,7 4,13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"></polyline></svg>
+        </a>
+      </nav>
+    </header>
+
+    <div id="f-top" style="max-width: 1360px; margin: 0 auto; padding: 56px 32px 88px">
+      <div class="mono fade f1" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 12px; color: #C9D4F7; margin-bottom: 18px">
+        <span>Hoja 01 — Índice</span><span>Esc. 1:1</span><span>ES · PT</span>
+      </div>
+      <h1 style="margin: 0; font-weight: 600">
+        <span class="sr">VEN construye energía eléctrica y obra civil en España y Portugal.</span>
+        <span class="cells" id="cells" aria-hidden="true">
+          <span class="cell">c</span><span class="cell">o</span><span class="cell">n</span><span class="cell">s</span><span class="cell">t</span><span class="cell">r</span><span class="cell">u</span><span class="cell">i</span><span class="cell">m</span><span class="cell">o</span><span class="cell">s</span>
+        </span>
+      </h1>
+      <div class="fade f2" aria-hidden="true" style="margin-top: 26px; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px; font-weight: 600; font-size: clamp(22px, 2.8vw, 40px); letter-spacing: -0.03em">
+        <span>energía eléctrica</span>
+        <span style="color: #FFC20E; font-weight: 900">‹</span>
+        <span>obra civil</span>
+      </div>
+      <svg viewBox="0 0 1000 40" preserveAspectRatio="none" aria-hidden="true" style="display: block; width: 100%; height: 40px; margin-top: 22px">
+        <path class="draw" pathLength="1" d="M1 8 V32 M1 20 H999 M999 8 V32" fill="none" stroke="#FFFFFF" stroke-width="1.5" vector-effect="non-scaling-stroke"></path>
+        <path class="draw" pathLength="1" d="M500 10 V30" fill="none" stroke="#FFC20E" stroke-width="4" vector-effect="non-scaling-stroke"></path>
+      </svg>
+      <div class="mono fade f2" style="display: flex; justify-content: space-between; font-size: 12px; color: #C9D4F7; margin-top: 6px">
+        <span>España</span><span>Portugal</span>
+      </div>
+      <div class="fade f3" style="margin-top: 56px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 32px">
+        <p style="margin: 0; max-width: 440px; font-size: 18px; line-height: 1.55; font-weight: 500; color: #DCE4FF">Proyectamos, ejecutamos y mantenemos infraestructura eléctrica y civil. Con la precisión de un plano.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: center">
+          <a class="link" href="#f-serv" style="font-size: 17px; font-weight: 600; color: #FFFFFF">ver servicios</a>
+          <a class="btn btnW" href="#f-contacto" style="text-decoration: none; background: #FFFFFF; color: #0B2FAA; padding: 16px 26px; font-weight: 600; font-size: 17px; display: inline-flex; align-items: center; gap: 14px; min-height: 52px; box-sizing: border-box">pedir presupuesto
+            <svg width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><polyline points="4,1 10,7 4,13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"></polyline></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="f-serv" style="max-width: 1360px; margin: 0 auto; padding: 96px 32px 72px">
+    <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 16px; border-bottom: 2px solid #0B2FAA; padding-bottom: 18px">
+      <h2 style="margin: 0; font-weight: 600; font-size: clamp(30px, 3.4vw, 48px); letter-spacing: -0.035em; color: #0B2FAA">dos disciplinas.</h2>
+      <span class="mono" style="font-size: 12px; color: #3A57C9">01 / Servicios</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr))">
+      <article class="srv" style="padding: 40px 32px 40px 0; border-bottom: 1px solid #C9D4F7; display: flex; flex-direction: column; gap: 20px">
+        <span class="mk" aria-hidden="true"></span>
+        <h3 style="margin: 0; font-weight: 600; font-size: 32px; letter-spacing: -0.03em; color: #0B2FAA">energía eléctrica</h3>
+        <ul style="margin: 0; padding: 0; list-style: none; font-size: 17px; font-weight: 500; line-height: 1.5">
+          <li style="padding: 11px 0; border-top: 1px solid #E4E9FA">Redes de media y baja tensión</li>
+          <li style="padding: 11px 0; border-top: 1px solid #E4E9FA">Centros de transformación</li>
+          <li style="padding: 11px 0; border-top: 1px solid #E4E9FA">Alumbrado público</li>
+          <li style="padding: 11px 0; border-top: 1px solid #E4E9FA">[A confirmar]</li>
+        </ul>
+      </article>
+      <article class="srv" style="padding: 40px 32px; border-bottom: 1px solid #C9D4F7; display: flex; flex-direction: column; gap: 20px">
+        <span class="mk" aria-hidden="true"></span>
+        <h3 style="margin: 0; font-weight: 600; font-size: 32px; letter-spacing: -0.03em; color: #0B2FAA">obra civil</h3>
+        <ul style="margin: 0; padding: 0; list-style: none; font-size: 17px; font-weight: 500; line-height: 1.5">
+          <li style="padding: 11px 0; border-top: 1px solid #E4E9FA">Canalizaciones y zanjas</li>
+          <li style="padding: 11px 0; border-top: 1px solid #E4E9FA">Cimentaciones y arquetas</li>
+          <li style="padding: 11px 0; border-top: 1px solid #E4E9FA">Urbanización y reposición</li>
+          <li style="padding: 11px 0; border-top: 1px solid #E4E9FA">[A confirmar]</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- METODO -->
+  <section id="f-metodo" style="max-width: 1360px; margin: 0 auto; padding: 72px 32px 96px">
+    <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 16px">
+      <h2 style="margin: 0; font-weight: 600; font-size: clamp(30px, 3.4vw, 48px); letter-spacing: -0.035em; color: #0B2FAA">del plano a la obra.</h2>
+      <span class="mono" style="font-size: 12px; color: #3A57C9">02 / Método</span>
+    </div>
+    <ol style="margin: 48px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); background-image: linear-gradient(#0B2FAA,#0B2FAA); background-size: 100% 2px; background-repeat: no-repeat; background-position: 0 7px">
+      <li class="ph" style="padding: 0 24px 16px 0; display: flex; flex-direction: column; gap: 12px">
+        <span class="node" style="width: 16px; height: 16px; background: #0B2FAA; border: 2px solid #0B2FAA; box-sizing: border-box"></span>
+        <span class="mono" style="font-size: 12px; color: #3A57C9">Fase 01</span>
+        <strong style="font-weight: 600; font-size: 24px; color: #0B2FAA">estudio</strong>
+        <span style="font-size: 16px; font-weight: 500; line-height: 1.55">Visita, levantamiento y viabilidad técnica.</span>
+      </li>
+      <li class="ph" style="padding: 0 24px 16px 0; display: flex; flex-direction: column; gap: 12px">
+        <span class="node" style="width: 16px; height: 16px; background: #0B2FAA; border: 2px solid #0B2FAA; box-sizing: border-box"></span>
+        <span class="mono" style="font-size: 12px; color: #3A57C9">Fase 02</span>
+        <strong style="font-weight: 600; font-size: 24px; color: #0B2FAA">proyecto</strong>
+        <span style="font-size: 16px; font-weight: 500; line-height: 1.55">Planos, mediciones y tramitación.</span>
+      </li>
+      <li class="ph" style="padding: 0 24px 16px 0; display: flex; flex-direction: column; gap: 12px">
+        <span class="node" style="width: 16px; height: 16px; background: #0B2FAA; border: 2px solid #0B2FAA; box-sizing: border-box"></span>
+        <span class="mono" style="font-size: 12px; color: #3A57C9">Fase 03</span>
+        <strong style="font-weight: 600; font-size: 24px; color: #0B2FAA">ejecución</strong>
+        <span style="font-size: 16px; font-weight: 500; line-height: 1.55">Equipos propios, partes diarios y control de obra.</span>
+      </li>
+      <li class="ph" style="padding: 0 24px 16px 0; display: flex; flex-direction: column; gap: 12px">
+        <span class="node" style="width: 16px; height: 16px; background: #0B2FAA; border: 2px solid #0B2FAA; box-sizing: border-box"></span>
+        <span class="mono" style="font-size: 12px; color: #3A57C9">Fase 04</span>
+        <strong style="font-weight: 600; font-size: 24px; color: #0B2FAA">entrega</strong>
+        <span style="font-size: 16px; font-weight: 500; line-height: 1.55">Documentación final y mantenimiento.</span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- AMBITO -->
+  <section class="bp" style="color: #FFFFFF; text-align: center; padding: 96px 32px">
+    <span class="mono" style="font-size: 12px; color: #C9D4F7">03 / Ámbito</span>
+    <p style="margin: 24px 0 0; font-weight: 600; font-size: clamp(40px, 6vw, 88px); line-height: 1; letter-spacing: -0.045em">
+      <span class="spread">españa</span> <span style="color: #FFC20E">‹</span> <span class="spread">portugal</span>
+    </p>
+    <p class="mono" style="margin: 24px 0 0; font-size: 12px; color: #C9D4F7">Sede · [Ciudad] &#160;&#160;—&#160;&#160; Delegação · [Cidade]</p>
+  </section>
+
+  <!-- APP -->
+  <section id="f-app" style="max-width: 1360px; margin: 0 auto; padding: 96px 32px 104px">
+    <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 16px; border-bottom: 2px solid #0B2FAA; padding-bottom: 18px">
+      <h2 style="margin: 0; font-weight: 600; font-size: clamp(30px, 3.4vw, 48px); letter-spacing: -0.035em; color: #0B2FAA">la obra, en el bolsillo.</h2>
+      <span class="mono" style="font-size: 12px; color: #3A57C9">04 / App VEN</span>
+    </div>
+    <p style="margin: 24px 0 0; max-width: 520px; font-size: 18px; line-height: 1.55; font-weight: 500; color: #1C2A5E">La app interna del equipo VEN. Todo lo de cada día, en cinco módulos.</p>
+    <div style="margin-top: 36px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 2px; background: #FFFFFF">
+      <div class="mod" style="aspect-ratio: 1 / 1; padding: 22px; background: #0B2FAA; color: #FFFFFF; display: flex; flex-direction: column; justify-content: space-between"><span class="mono ml" style="font-size: 12px; color: #C9D4F7">M.01</span><strong style="font-weight: 600; font-size: 22px">fichaje diario</strong></div>
+      <div class="mod" style="aspect-ratio: 1 / 1; padding: 22px; background: #0B2FAA; color: #FFFFFF; display: flex; flex-direction: column; justify-content: space-between"><span class="mono ml" style="font-size: 12px; color: #C9D4F7">M.02</span><strong style="font-weight: 600; font-size: 22px">partes de trabajo</strong></div>
+      <div class="mod" style="aspect-ratio: 1 / 1; padding: 22px; background: #0B2FAA; color: #FFFFFF; display: flex; flex-direction: column; justify-content: space-between"><span class="mono ml" style="font-size: 12px; color: #C9D4F7">M.03</span><strong style="font-weight: 600; font-size: 22px">nóminas</strong></div>
+      <div class="mod" style="aspect-ratio: 1 / 1; padding: 22px; background: #0B2FAA; color: #FFFFFF; display: flex; flex-direction: column; justify-content: space-between"><span class="mono ml" style="font-size: 12px; color: #C9D4F7">M.04</span><strong style="font-weight: 600; font-size: 22px">documentos</strong></div>
+      <div class="mod" style="aspect-ratio: 1 / 1; padding: 22px; background: #0B2FAA; color: #FFFFFF; display: flex; flex-direction: column; justify-content: space-between"><span class="mono ml" style="font-size: 12px; color: #C9D4F7">M.05</span><strong style="font-weight: 600; font-size: 22px">planos de obra</strong></div>
+    </div>
+    <a class="btn btnY" href="#f-app" style="margin-top: 36px; text-decoration: none; background: #0B2FAA; color: #FFFFFF; padding: 16px 26px; font-weight: 600; font-size: 17px; display: inline-flex; align-items: center; gap: 14px; min-height: 52px; box-sizing: border-box">entrar a la app
+      <svg width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><polyline points="4,1 10,7 4,13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"></polyline></svg>
+    </a>
+  </section>
+
+  <!-- FOOTER AZUL -->
+  <footer id="f-contacto" class="bp" style="color: #FFFFFF">
+    <div style="max-width: 1360px; margin: 0 auto; padding: 80px 32px 36px; display: flex; flex-direction: column; gap: 56px">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 32px">
+        <h2 style="margin: 0; font-weight: 600; font-size: clamp(40px, 5vw, 72px); letter-spacing: -0.045em; line-height: .95">¿hablamos<br>de tu obra?</h2>
+        <a class="link" href="mailto:[EMAIL]" style="font-size: 22px; font-weight: 600; color: #FFFFFF">[email de contacto]</a>
+      </div>
+      <div class="mono" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); border-top: 1px solid rgba(255,255,255,.35); font-size: 12px; color: #DCE4FF">
+        <span style="padding: 16px 0">VEN Infraestructure</span>
+        <span style="padding: 16px 0">[Teléfono]</span>
+        <span style="padding: 16px 0">[Dirección]</span>
+        <span style="padding: 16px 0">Aviso legal · Privacidad · © 2026</span>
+      </div>
+    </div>
+  </footer>
+</div>
+<script>
+(function(){
+  var W=['construimos','conectamos','iluminamos','canalizamos','proyectamos'],P='abcdefghijklmnopqrstuvwxyz0123456789/+';
+  var els=document.querySelectorAll('#cells .cell'),w=0,t=0;
+  try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;}catch(e){}
+  function paint(){var word=W[w];for(var i=0;i<els.length;i++){var tg=word.charAt(i)||'',st=6+i*3,el=els[i];
+    if(!tg){el.textContent='';el.className='cell';}
+    else if(t<st){el.textContent=t<2?'':P.charAt(Math.floor(Math.random()*P.length));el.className='cell scr';}
+    else{el.textContent=tg;el.className=t<st+6?'cell hot':'cell';}}}
+  setInterval(function(){t++;if(t>120){t=0;w=(w+1)%W.length;}paint();},45);
+})();
+</script>
+</body>
+</html>

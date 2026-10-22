@@ -1,0 +1,127 @@
+{
+  "meta": {
+    "lang": "pt-PT",
+    "siteName": "VEN Infraestructure",
+    "home": { "title": "VEN Infraestructure · Energia elétrica e obra civil em Espanha e Portugal", "description": "Projetamos, executamos e mantemos infraestruturas elétricas e obra civil em Espanha e Portugal." },
+    "services": { "title": "Serviços · VEN Infraestructure", "description": "Redes de média e baixa tensão, postos de transformação, iluminação pública e obra civil." },
+    "projects": { "title": "Projetos · VEN Infraestructure", "description": "Obras de energia elétrica e obra civil realizadas pela VEN Infraestructure." },
+    "company": { "title": "Empresa · VEN Infraestructure", "description": "Quem somos e onde trabalhamos: Espanha e Portugal." },
+    "contact": { "title": "Contacto · VEN Infraestructure", "description": "Peça um orçamento para a sua obra de energia elétrica ou obra civil." }
+  },
+  "routes": {
+    "home": "",
+    "services": "servicos",
+    "projects": "projetos",
+    "company": "empresa",
+    "contact": "contacto",
+    "legal": "aviso-legal",
+    "privacy": "privacidade",
+    "cookies": "cookies"
+  },
+  "nav": {
+    "services": "serviços",
+    "method": "método",
+    "app": "app ven",
+    "contact": "contacto",
+    "employees": "acesso colaboradores",
+    "menu": "menu",
+    "close": "fechar",
+    "language": "Idioma",
+    "home": "VEN infraestructure, início"
+  },
+  "hero": {
+    "h1": "A VEN constrói energia elétrica e obra civil em Espanha e Portugal.",
+    "sheet": ["Folha 01 — Índice", "Esc. 1:1", "ES · PT"],
+    "words": ["construímos", "ligamos", "iluminamos", "canalizamos", "projetamos"],
+    "taglineA": "energia elétrica",
+    "taglineB": "obra civil",
+    "dimLeft": "Espanha",
+    "dimRight": "Portugal",
+    "lead": "Projetamos, executamos e mantemos infraestruturas elétricas e civis. Com a precisão de uma planta.",
+    "ctaPrimary": "pedir orçamento",
+    "ctaSecondary": "ver serviços"
+  },
+  "services": {
+    "title": "duas disciplinas.",
+    "label": "01 / Serviços",
+    "electric": {
+      "title": "energia elétrica",
+      "items": ["Redes de média e baixa tensão", "Postos de transformação", "Iluminação pública", "[PENDENTE]"]
+    },
+    "civil": {
+      "title": "obra civil",
+      "items": ["Canalizações e valas", "Fundações e caixas de visita", "Urbanização e reposição de pavimentos", "[PENDENTE]"]
+    }
+  },
+  "method": {
+    "title": "da planta à obra.",
+    "label": "02 / Método",
+    "phases": [
+      { "code": "Fase 01", "title": "estudo", "text": "Visita, levantamento e viabilidade técnica." },
+      { "code": "Fase 02", "title": "projeto", "text": "Plantas, medições e licenciamento." },
+      { "code": "Fase 03", "title": "execução", "text": "Equipas próprias, relatórios diários e controlo de obra." },
+      { "code": "Fase 04", "title": "entrega", "text": "Documentação final e manutenção." }
+    ]
+  },
+  "projects": {
+    "title": "obras recentes.",
+    "label": "03 / Projetos",
+    "empty": "Em breve publicaremos as nossas obras.",
+    "items": []
+  },
+  "scope": {
+    "label": "04 / Âmbito",
+    "a": "espanha",
+    "b": "portugal",
+    "offices": "Sede · [PENDENTE] — Delegação · [PENDENTE]"
+  },
+  "app": {
+    "title": "a obra, no bolso.",
+    "label": "05 / App VEN",
+    "lead": "A app interna da equipa VEN. Tudo o que é do dia a dia, em cinco módulos.",
+    "modules": [
+      { "code": "M.01", "title": "registo de ponto" },
+      { "code": "M.02", "title": "relatórios de trabalho" },
+      { "code": "M.03", "title": "recibos de vencimento" },
+      { "code": "M.04", "title": "documentos" },
+      { "code": "M.05", "title": "plantas de obra" }
+    ],
+    "cta": "entrar na app"
+  },
+  "footer": {
+    "title": "falamos da sua obra?",
+    "email": "[PENDENTE]",
+    "phone": "[PENDENTE]",
+    "address": "[PENDENTE]",
+    "legal": "aviso legal",
+    "privacy": "privacidade",
+    "cookies": "cookies",
+    "copyright": "© 2026 VEN Infraestructure"
+  },
+  "form": {
+    "title": "peça o seu orçamento.",
+    "name": "Nome",
+    "company": "Empresa",
+    "email": "Email",
+    "phone": "Telefone",
+    "country": "País",
+    "countryES": "Espanha",
+    "countryPT": "Portugal",
+    "service": "Tipo de serviço",
+    "serviceElectric": "Energia elétrica",
+    "serviceCivil": "Obra civil",
+    "serviceBoth": "Ambos",
+    "message": "Fale-nos da sua obra",
+    "privacy": "Li e aceito a política de privacidade",
+    "submit": "enviar pedido",
+    "sending": "a enviar…",
+    "success": "Obrigado. Responderemos em breve.",
+    "error": "Não foi possível enviar. Tente novamente ou escreva-nos por email.",
+    "required": "Campo obrigatório",
+    "invalidEmail": "Introduza um email válido"
+  },
+  "common": {
+    "pending": "[PENDENTE]",
+    "comingSoon": "brevemente"
+  }
+}
