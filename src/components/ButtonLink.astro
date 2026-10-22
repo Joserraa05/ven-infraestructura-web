@@ -1,0 +1,22 @@
+---
+import Chevron from './Chevron.astro';
+
+interface Props {
+  href: string;
+  variant?: 'primary' | 'inverse';
+  size?: 'default' | 'small';
+  external?: boolean;
+  class?: string;
+}
+
+const { href, variant = 'primary', size = 'default', external = false, class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={['button', `button--${variant}`, { 'button--small': size === 'small' }, className]}
+  {...external ? { rel: 'noopener', target: '_blank' } : {}}
+>
+  <slot />
+  <Chevron />
+</a>

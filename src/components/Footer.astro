@@ -1,0 +1,154 @@
+---
+import { getDictionary, getPath, isPending, t, type Lang, type PageId } from '../i18n/utils';
+import ButtonLink from './ButtonLink.astro';
+import LanguageSwitch from './LanguageSwitch.astro';
+
+interface Props {
+  lang: Lang;
+  page: PageId;
+}
+
+const { lang, page } = Astro.props;
+const { footer } = getDictionary(lang);
+const hasEmail = !isPending(lang, footer.email);
+
+const pageLinks = [
+  { label: t(lang, 'nav.services'), href: getPath(lang, 'services') },
+  { label: t(lang, 'nav.projects'), href: getPath(lang, 'projects') },
+  { label: t(lang, 'nav.company'), href: getPath(lang, 'company') },
+  { label: t(lang, 'nav.contact'), href: getPath(lang, 'contact') },
+];
+
+const legalLinks = [
+  { label: footer.legal, href: getPath(lang, 'legal') },
+  { label: footer.privacy, href: getPath(lang, 'privacy') },
+  { label: footer.cookies, href: getPath(lang, 'cookies') },
+];
+---
+
+<footer class="site-footer blueprint on-blue">
+  <div class="container site-footer__inner">
+    <div class="site-footer__top">
+      <h2 class="site-footer__title">{footer.title}</h2>
+      <div class="site-footer__contact">
+        {
+          hasEmail ? (
+            <a class="link site-footer__email" href={`mailto:${footer.email}`}>
+              {footer.email}
+            </a>
+          ) : (
+            <span class="site-footer__email">{footer.email}</span>
+          )
+        }
+        {page !== 'contact' && <ButtonLink href={getPath(lang, 'contact')} variant="inverse">{footer.cta}</ButtonLink>}
+      </div>
+    </div>
+
+    <nav class="site-footer__pages" aria-label={footer.navLabel}>
+      <ul>
+        {
+          pageLinks.map((item) => (
+            <li>
+              <a class="link" href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <LanguageSwitch lang={lang} page={page} variant="compact" />
+    </nav>
+
+    <div class="label site-footer__meta">
+      <span>{t(lang, 'meta.siteName')}</span>
+      <span>{footer.phone}</span>
+      <span>{footer.address}</span>
+      <span class="site-footer__legal">
+        {
+          legalLinks.map((item) => (
+            <a class="link" href={item.href}>
+              {item.label}
+            </a>
+          ))
+        }
+        <span>{footer.copyright}</span>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-block: var(--space-9) var(--space-6);
+  }
+
+  .site-footer__top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-6);
+  }
+
+  .site-footer__title {
+    max-width: 10ch;
+    font-size: var(--fs-footer);
+    letter-spacing: var(--ls-display);
+    line-height: 0.95;
+  }
+
+  .site-footer__contact {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-5) var(--space-6);
+  }
+
+  .site-footer__email {
+    font-size: 22px;
+    font-weight: var(--fw-head);
+  }
+
+  .site-footer__pages {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4) var(--space-6);
+  }
+
+  .site-footer__pages ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-6);
+    padding: 0;
+    list-style: none;
+    font-weight: var(--fw-head);
+  }
+
+  .site-footer__meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    border-top: var(--border-hairline) solid var(--rule-on-blue);
+    color: var(--blue-100);
+  }
+
+  .site-footer__meta > span {
+    display: flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    padding-block: var(--space-2);
+  }
+
+  .site-footer__legal {
+    flex-wrap: wrap;
+    gap: 0 var(--space-4);
+  }
+
+  .site-footer__legal .link {
+    font-weight: var(--fw-text);
+  }
+</style>
