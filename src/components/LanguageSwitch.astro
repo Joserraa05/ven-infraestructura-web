@@ -1,0 +1,302 @@
+---
+import { getAlternate, getAlternates, getDictionary, t, type Lang, type PageId } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  page: PageId;
+  /** `list` shows every language inline; `compact` shows a globe with the active one and reveals the rest on hover. */
+  variant?: 'list' | 'compact';
+}
+
+const { lang, page, variant = 'list' } = Astro.props;
+const { languages } = getDictionary(lang);
+const alternates = getAlternates(page);
+const target = getAlternate(lang, page);
+---
+
+{
+  variant === 'list' ? (
+    <nav class="language-switch" aria-label={t(lang, 'nav.language')}>
+      <ul>
+        {alternates.map((alternate) => (
+          <li>
+            <a
+              class="link"
+              href={alternate.path}
+              hreflang={alternate.hreflang}
+              lang={alternate.hreflang}
+              aria-current={alternate.lang === lang ? 'page' : undefined}
+              data-language-link={alternate.lang === lang ? undefined : ''}
+            >
+              {languages[alternate.lang].code}
+              <span class="sr-only">— {languages[alternate.lang].name}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  ) : (
+    <nav aria-label={t(lang, 'nav.language')}>
+      {/* The whole control is one link to the other language; the active code is only visual. */}
+      <a class="language-compact" href={target.path} hreflang={target.hreflang} data-language-compact data-language-link>
+        <svg class="language-compact__icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
+            <circle cx="12" cy="12" r="9" />
+            <ellipse cx="12" cy="12" rx="4" ry="9" />
+            <path d="M3 12h18" />
+          </g>
+        </svg>
+        <span class="language-compact__stack">
+          <span class="language-compact__option language-compact__option--current" aria-hidden="true">
+            {languages[lang].code}
+          </span>
+          <span class="language-compact__option language-compact__option--alternate" lang={target.hreflang}>
+            {languages[target.lang].code}
+            <span class="sr-only">— {languages[target.lang].name}</span>
+          </span>
+        </span>
+      </a>
+    </nav>
+  )
+}
+
+<style>
+  .language-switch ul {
+    display: flex;
+    gap: var(--space-2);
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: var(--fs-label);
+    letter-spacing: var(--ls-label);
+  }
+
+  .language-switch li + li::before {
+    content: '·';
+    margin-right: var(--space-2);
+    color: var(--blue-200);
+  }
+
+  .language-switch li {
+    display: flex;
+    align-items: center;
+  }
+
+  .language-switch .link {
+    justify-content: center;
+    min-width: var(--tap-target);
+    font-weight: var(--fw-text);
+    color: var(--blue-200);
+  }
+
+  .language-switch .link[aria-current='page'] {
+    color: var(--white);
+  }
+
+  /* Compact: globe + active language; the alternative sits just below, hidden until hover/focus. */
+  .language-compact {
+    --hint-opacity: 0.5;
+    --hint-blur: 1px;
+    --hidden-blur: 3px;
+
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--tap-target);
+    padding-inline: var(--space-2);
+    /* Keeps the generous hit area while the text lines up with the container edge. */
+    margin-inline-end: calc(-1 * var(--space-2));
+    color: var(--white);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: var(--fs-nav);
+    font-weight: var(--fw-text);
+    letter-spacing: var(--ls-label);
+  }
+
+  .language-compact__icon {
+    flex: none;
+  }
+
+  .language-compact__stack {
+    position: relative;
+    display: block;
+    height: var(--tap-target);
+  }
+
+  .language-compact__option {
+    display: flex;
+    align-items: center;
+    height: var(--tap-target);
+    color: inherit;
+    text-decoration: none;
+    transition:
+      transform var(--dur-fast) var(--ease-out-ven),
+      opacity var(--dur-fast) var(--ease-out-ven),
+      filter var(--dur-fast) var(--ease-out-ven);
+  }
+
+  .language-compact__option--alternate {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    opacity: 0;
+    filter: blur(var(--hidden-blur));
+    pointer-events: none;
+  }
+
+  .language-compact:hover .language-compact__option--alternate,
+  .language-compact:focus-visible .language-compact__option--alternate {
+    opacity: var(--hint-opacity);
+    filter: blur(var(--hint-blur));
+    pointer-events: auto;
+  }
+
+  .language-compact .language-compact__option--alternate:hover {
+    opacity: 1;
+    filter: none;
+  }
+
+  /* Without hover (touch) the alternative stays visible as a hint so it can be tapped. */
+  @media (hover: none) {
+    .language-compact__option--alternate {
+      opacity: var(--hint-opacity);
+      filter: none;
+      pointer-events: auto;
+    }
+  }
+
+  /* Click: both options rise one row; the new language settles sharp, the old one fades out. */
+  .language-compact.is-switching .language-compact__option--current {
+    transform: translateY(-100%);
+    opacity: 0;
+    filter: blur(var(--hidden-blur));
+  }
+
+  .language-compact.is-switching .language-compact__option--alternate {
+    transform: translateY(-100%);
+    opacity: 1;
+    filter: none;
+  }
+</style>
+
+<script>
+  // Fallback in case `transitionend` never fires (e.g. the tab is in the background).
+  const NAVIGATION_FALLBACK_MS = 400;
+  const SCROLL_STORAGE_KEY = 'ven:language-switch-scroll';
+
+  /**
+   * Where the reader was, expressed as "block N of the page, this far into it". Both languages
+   * render the same blocks, so this survives texts of different lengths better than pixels.
+   */
+  interface ScrollAnchor {
+    path: string;
+    block: number;
+    progress: number;
+  }
+
+  function pageBlocks(): HTMLElement[] {
+    return [...document.querySelectorAll<HTMLElement>('main > *, body > footer')];
+  }
+
+  /** The sticky header covers the top of the viewport, so the visible content starts below it. */
+  function visibleTop(): number {
+    return document.querySelector('.site-header')?.getBoundingClientRect().bottom ?? 0;
+  }
+
+  function saveScrollAnchor(targetHref: string) {
+    if (window.scrollY === 0) return;
+    const top = visibleTop();
+    const blocks = pageBlocks();
+    const block = blocks.findIndex((element) => element.getBoundingClientRect().bottom > top);
+    const element = blocks[block];
+    if (!element) return;
+
+    const rect = element.getBoundingClientRect();
+    const anchor: ScrollAnchor = {
+      path: new URL(targetHref, window.location.href).pathname,
+      block,
+      progress: rect.height > 0 ? (top - rect.top) / rect.height : 0,
+    };
+    try {
+      sessionStorage.setItem(SCROLL_STORAGE_KEY, JSON.stringify(anchor));
+    } catch (error) {
+      // Storage can be blocked (private mode, site data disabled): the new page then opens at the top.
+      console.warn('Could not keep the scroll position across languages', error);
+    }
+  }
+
+  function readScrollAnchor(): ScrollAnchor | undefined {
+    try {
+      const raw = sessionStorage.getItem(SCROLL_STORAGE_KEY);
+      sessionStorage.removeItem(SCROLL_STORAGE_KEY);
+      return raw ? (JSON.parse(raw) as ScrollAnchor) : undefined;
+    } catch (error) {
+      console.warn('Could not restore the scroll position across languages', error);
+      return undefined;
+    }
+  }
+
+  function scrollToAnchor(anchor: ScrollAnchor) {
+    const element = pageBlocks()[anchor.block];
+    if (!element) return;
+    const rect = element.getBoundingClientRect();
+    const top = window.scrollY + rect.top + anchor.progress * rect.height - visibleTop();
+    // `instant` overrides the smooth scroll-behavior set on <html>.
+    window.scrollTo({ top, behavior: 'instant' });
+  }
+
+  function restoreScrollAnchor() {
+    const anchor = readScrollAnchor();
+    if (!anchor || anchor.path !== window.location.pathname) return;
+
+    scrollToAnchor(anchor);
+    // Web fonts can still change line heights after the first paint; re-align once they are ready
+    // unless the reader has already started scrolling.
+    const restoredAt = window.scrollY;
+    document.fonts.ready.then(() => {
+      if (window.scrollY === restoredAt) scrollToAnchor(anchor);
+    });
+  }
+
+  function isPlainClick(event: MouseEvent): boolean {
+    return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
+  }
+
+  function setUpCompactSwitch(control: HTMLAnchorElement) {
+    const target = control.querySelector<HTMLElement>('.language-compact__option--alternate');
+    if (!target) return;
+
+    control.addEventListener('click', (event) => {
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!isPlainClick(event) || reducedMotion) return;
+
+      event.preventDefault();
+      if (control.classList.contains('is-switching')) return;
+
+      // Let the swap play before leaving the page.
+      let hasNavigated = false;
+      const navigate = () => {
+        if (hasNavigated) return;
+        hasNavigated = true;
+        window.location.assign(control.href);
+      };
+      target.addEventListener('transitionend', navigate, { once: true });
+      window.setTimeout(navigate, NAVIGATION_FALLBACK_MS);
+      control.classList.add('is-switching');
+    });
+
+    // Coming back via the back/forward cache would otherwise show the swapped state.
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) control.classList.remove('is-switching');
+    });
+  }
+
+  document.querySelectorAll<HTMLAnchorElement>('[data-language-link]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      if (isPlainClick(event)) saveScrollAnchor(link.href);
+    });
+  });
+  document.querySelectorAll<HTMLAnchorElement>('[data-language-compact]').forEach(setUpCompactSwitch);
+  restoreScrollAnchor();
+</script>

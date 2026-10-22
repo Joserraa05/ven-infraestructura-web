@@ -1,0 +1,24 @@
+{
+  "name": "ven-infraestructura-web",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "check:i18n": "node scripts/check-i18n.mjs",
+    "prebuild": "npm run check:i18n",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "~3.7.0",
+    "@fontsource/geist-mono": "^5.3.0",
+    "@fontsource/poppins": "^5.3.0",
+    "astro": "^5.18.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "typescript": "^5.9.3"
+  }
+}

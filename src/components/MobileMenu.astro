@@ -1,0 +1,199 @@
+---
+import { getPath, t, type Lang, type PageId } from '../i18n/utils';
+import LanguageSwitch from './LanguageSwitch.astro';
+import Logo from './Logo.astro';
+
+interface NavItem {
+  label: string;
+  href: string;
+  current: boolean;
+}
+
+interface Props {
+  lang: Lang;
+  page: PageId;
+  items: NavItem[];
+}
+
+const { lang, page, items } = Astro.props;
+const panelId = 'mobile-menu';
+---
+
+<button class="mobile-menu__toggle" type="button" popovertarget={panelId} aria-controls={panelId}>
+  {t(lang, 'nav.menu')}
+</button>
+
+<div class="mobile-menu blueprint on-blue" id={panelId} popover data-mobile-menu>
+  <div class="container mobile-menu__bar">
+    <a class="mobile-menu__home" href={getPath(lang, 'home')} aria-label={t(lang, 'nav.home')}>
+      <Logo />
+    </a>
+    <button class="mobile-menu__toggle" type="button" popovertarget={panelId} popovertargetaction="hide">
+      {t(lang, 'nav.close')}
+    </button>
+  </div>
+
+  <nav class="container mobile-menu__nav" aria-label={t(lang, 'nav.main')}>
+    <ul class="mobile-menu__links">
+      {
+        items.map((item) => (
+          <li>
+            <a class="link" href={item.href} aria-current={item.current ? 'page' : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mobile-menu__footer">
+      <LanguageSwitch lang={lang} page={page} />
+    </div>
+  </nav>
+</div>
+
+<style>
+  .mobile-menu__toggle {
+    min-height: var(--tap-target);
+    min-width: var(--tap-target);
+    padding: var(--space-2) var(--space-4);
+    border: var(--border-hairline) solid var(--rule-on-blue);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--white);
+    font-weight: var(--fw-head);
+    font-size: var(--fs-nav);
+    cursor: pointer;
+    transition:
+      background-color var(--dur-fast) var(--ease-out-ven),
+      color var(--dur-fast) var(--ease-out-ven);
+  }
+
+  .mobile-menu__toggle:hover {
+    background: var(--white);
+    color: var(--ven-blue);
+  }
+
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow-y: auto;
+    flex-direction: column;
+  }
+
+  .mobile-menu:popover-open {
+    display: flex;
+  }
+
+  .mobile-menu__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--header-height);
+    padding-block: var(--space-5);
+  }
+
+  .mobile-menu__home {
+    display: block;
+  }
+
+  .mobile-menu__nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-8);
+    padding-block: var(--space-6) var(--space-8);
+  }
+
+  .mobile-menu__links {
+    padding: 0;
+    list-style: none;
+    border-top: var(--border-hairline) solid var(--rule-on-blue);
+  }
+
+  .mobile-menu__links li {
+    border-bottom: var(--border-hairline) solid var(--rule-on-blue);
+  }
+
+  .mobile-menu__links .link {
+    min-height: var(--space-8);
+    font-size: var(--fs-h2);
+    letter-spacing: var(--ls-head);
+  }
+
+  .mobile-menu__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 860px) {
+    .mobile-menu__toggle,
+    .mobile-menu,
+    .mobile-menu:popover-open {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const FOCUSABLE = 'a[href], button:not([disabled])';
+
+  function setUpMobileMenu(panel: HTMLElement) {
+    const opener = document.querySelector<HTMLButtonElement>(`[popovertarget="${panel.id}"]:not([popovertargetaction])`);
+    let isClosingFromLink = false;
+    opener?.setAttribute('aria-expanded', 'false');
+
+    panel.addEventListener('toggle', (event) => {
+      const isOpen = (event as ToggleEvent).newState === 'open';
+      document.documentElement.style.overflow = isOpen ? 'hidden' : '';
+      opener?.setAttribute('aria-expanded', String(isOpen));
+      if (isOpen) {
+        panel.querySelector<HTMLElement>('.mobile-menu__links a')?.focus();
+      } else if (!isClosingFromLink) {
+        opener?.focus();
+      }
+      isClosingFromLink = false;
+    });
+
+    // Links to sections of the current page don't navigate away, so close the panel explicitly.
+    panel.querySelectorAll<HTMLAnchorElement>('a[href]').forEach((link) => {
+      link.addEventListener('click', () => {
+        isClosingFromLink = true;
+        panel.hidePopover();
+      });
+    });
+
+    // The panel covers the page: keep keyboard focus inside it while it's open.
+    panel.addEventListener('keydown', (event) => {
+      if (event.key !== 'Tab') return;
+      const focusable = [...panel.querySelectorAll<HTMLElement>(FOCUSABLE)].filter((element) => element.offsetParent !== null);
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (!first || !last) return;
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
+    // Closing on resize avoids a stuck scroll lock once the desktop header takes over.
+    window.matchMedia('(min-width: 860px)').addEventListener('change', (query) => {
+      if (query.matches && panel.matches(':popover-open')) panel.hidePopover();
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-mobile-menu]').forEach(setUpMobileMenu);
+</script>

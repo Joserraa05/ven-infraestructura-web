@@ -1,0 +1,37 @@
+---
+import { getDictionary, getPath, languages } from '../i18n/utils';
+
+// Language picker for "/": the script sends Portuguese browsers to /pt/; everyone else,
+// including clients without JS, follows the meta refresh to /es/.
+const fallbackPath = getPath('es', 'home');
+const portuguesePath = getPath('pt', 'home');
+const { meta, languages: languageNames } = getDictionary('es');
+---
+
+<!doctype html>
+<html lang="es-ES">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{meta.siteName}</title>
+    <meta name="robots" content="noindex" />
+    <script is:inline define:vars={{ fallbackPath, portuguesePath }}>
+      location.replace(/^pt\b/i.test(navigator.language) ? portuguesePath : fallbackPath);
+    </script>
+    <meta http-equiv="refresh" content={`0; url=${fallbackPath}`} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <ul>
+      {
+        languages.map((lang) => (
+          <li>
+            <a href={getPath(lang, 'home')} hreflang={getDictionary(lang).meta.lang}>
+              {languageNames[lang].name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </body>
+</html>

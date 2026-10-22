@@ -1,0 +1,86 @@
+---
+interface Phase {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  phases: Phase[];
+}
+
+const { phases } = Astro.props;
+---
+
+<ol class="phase-timeline">
+  {
+    phases.map((phase) => (
+      <li class="phase">
+        <span class="phase__node" aria-hidden="true" />
+        <strong class="phase__title">{phase.title}</strong>
+        <span class="phase__text">{phase.text}</span>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .phase-timeline {
+    --node-size: 16px;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    row-gap: var(--space-6);
+    margin-top: var(--space-7);
+    padding: 0;
+    list-style: none;
+  }
+
+  .phase {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: 0 var(--space-5) var(--space-4) 0;
+  }
+
+  /* Each phase draws its own segment so the line follows the grid when it wraps. */
+  .phase::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--node-size) / 2 - var(--border-rule) / 2);
+    height: var(--border-rule);
+    background: var(--ven-blue);
+  }
+
+  .phase__node {
+    position: relative;
+    width: var(--node-size);
+    height: var(--node-size);
+    background: var(--ven-blue);
+    border: var(--border-rule) solid var(--ven-blue);
+    transition:
+      transform var(--dur-fast) var(--ease-out-ven),
+      background-color var(--dur-fast) var(--ease-out-ven),
+      border-color var(--dur-fast) var(--ease-out-ven);
+  }
+
+  .phase:hover .phase__node {
+    transform: rotate(45deg);
+    background-color: var(--signal-yellow);
+    border-color: var(--signal-yellow);
+  }
+
+  .phase__title {
+    font-weight: var(--fw-head);
+    font-size: var(--fs-h4);
+    letter-spacing: var(--ls-head);
+    color: var(--ven-blue);
+  }
+
+  .phase__text {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+</style>

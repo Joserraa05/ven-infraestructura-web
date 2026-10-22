@@ -1,0 +1,24 @@
+---
+import { Image } from 'astro:assets';
+import logoWhite from '../assets/logo/ven-logo-white.png';
+import logoBlue from '../assets/logo/ven-logo-blue.png';
+
+interface Props {
+  tone?: 'white' | 'blue';
+  height?: number;
+  eager?: boolean;
+}
+
+const { tone = 'white', height = 44, eager = false } = Astro.props;
+const source = tone === 'white' ? logoWhite : logoBlue;
+---
+
+<Image
+  src={source}
+  alt=""
+  height={height}
+  densities={[1, 2]}
+  loading={eager ? 'eager' : 'lazy'}
+  fetchpriority={eager ? 'high' : 'auto'}
+  class="logo"
+/>

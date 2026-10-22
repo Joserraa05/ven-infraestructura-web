@@ -1,0 +1,36 @@
+---
+interface Props {
+  label?: string;
+  title: string;
+}
+
+const { label, title } = Astro.props;
+---
+
+<section class="page-header blueprint on-blue">
+  <div class="container page-header__inner">
+    {label && <span class="label page-header__label">{label}</span>}
+    <h1 class="page-header__title">{title}</h1>
+  </div>
+</section>
+
+<style>
+  .page-header__inner {
+    padding-block: var(--space-8) var(--space-9);
+  }
+
+  .page-header__label {
+    display: block;
+    color: var(--blue-200);
+  }
+
+  .page-header__label + .page-header__title {
+    margin-top: var(--space-5);
+  }
+
+  .page-header__title {
+    font-size: var(--fs-footer);
+    letter-spacing: var(--ls-display);
+    line-height: 0.95;
+  }
+</style>

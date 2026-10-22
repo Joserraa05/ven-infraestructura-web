@@ -1,0 +1,61 @@
+---
+interface Props {
+  title: string;
+  items: string[];
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { title, items, headingLevel: Heading = 'h3' } = Astro.props;
+---
+
+<article class="service-column">
+  <span class="service-column__mark" aria-hidden="true"></span>
+  <Heading class="service-column__title">{title}</Heading>
+  <ul class="service-column__list">
+    {items.map((item) => <li>{item}</li>)}
+  </ul>
+</article>
+
+<style>
+  .service-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding: var(--space-7) var(--space-6);
+    border-bottom: var(--border-hairline) solid var(--blue-200);
+    transition: background-color var(--dur-fast) var(--ease-out-ven);
+  }
+
+  .service-column:hover {
+    background-color: var(--blue-25);
+  }
+
+  .service-column__mark {
+    display: block;
+    width: var(--space-3);
+    height: var(--space-3);
+    background: var(--signal-yellow);
+    transition: width var(--dur-fast) var(--ease-out-ven);
+  }
+
+  .service-column:hover .service-column__mark {
+    width: 48px;
+  }
+
+  .service-column__title {
+    font-size: var(--fs-h3);
+    letter-spacing: -0.03em;
+    color: var(--ven-blue);
+  }
+
+  .service-column__list {
+    padding: 0;
+    list-style: none;
+    color: var(--ven-navy);
+  }
+
+  .service-column__list li {
+    padding-block: var(--space-3);
+    border-top: var(--border-hairline) solid var(--blue-50);
+  }
+</style>

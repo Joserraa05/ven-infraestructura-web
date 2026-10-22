@@ -1,0 +1,61 @@
+---
+import '@fontsource/poppins/latin-500.css';
+import '@fontsource/poppins/latin-600.css';
+import '@fontsource/geist-mono/latin-400.css';
+import '@fontsource/geist-mono/latin-500.css';
+import poppinsHeadingFont from '@fontsource/poppins/files/poppins-latin-600-normal.woff2?url';
+import poppinsTextFont from '@fontsource/poppins/files/poppins-latin-500-normal.woff2?url';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { defaultLang, getAlternates, getDictionary, getPath, t, type Lang, type PageId } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  page: PageId;
+}
+
+const { lang, page } = Astro.props;
+const { meta } = getDictionary(lang);
+const { title, description } = meta[page];
+const site = Astro.site;
+const absolute = (path: string) => (site ? new URL(path, site).href : path);
+const alternates = getAlternates(page);
+---
+
+<!doctype html>
+<html lang={meta.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={absolute(getPath(lang, page))} />
+    {alternates.map((alternate) => <link rel="alternate" hreflang={alternate.hreflang} href={absolute(alternate.path)} />)}
+    <link rel="alternate" hreflang="x-default" href={absolute(getPath(defaultLang, page))} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href={poppinsHeadingFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={poppinsTextFont} as="font" type="font/woff2" crossorigin />
+    <meta name="theme-color" content="#0B2FAA" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={meta.siteName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={absolute(getPath(lang, page))} />
+    <meta property="og:locale" content={meta.lang.replace('-', '_')} />
+    {
+      alternates
+        .filter((alternate) => alternate.lang !== lang)
+        .map((alternate) => <meta property="og:locale:alternate" content={alternate.hreflang.replace('-', '_')} />)
+    }
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t(lang, 'nav.skip')}</a>
+    <Header lang={lang} page={page} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer lang={lang} page={page} />
+  </body>
+</html>

@@ -1,0 +1,86 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import { getDictionary, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { company } = getDictionary(lang);
+---
+
+<Base lang={lang} page="company">
+  <PageHeader label={company.sheet} title={company.title} />
+
+  <div class="container company">
+    <p class="company__intro">{company.intro}</p>
+
+    <section aria-labelledby="offices-title">
+      <SectionHeader id="offices-title" title={company.officesTitle} label={company.officesLabel} />
+      <ul class="offices">
+        {
+          company.offices.map((office) => (
+            <li class="office">
+              <span class="label office__role">{office.role}</span>
+              <h3 class="office__country">{office.country}</h3>
+              <p>{office.address}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section aria-labelledby="certifications-title">
+      <SectionHeader id="certifications-title" title={company.certificationsTitle} label={company.certificationsLabel} />
+      <p class="company__certifications">{company.certifications}</p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .company {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-9);
+    padding-block: var(--space-9);
+  }
+
+  .company__intro {
+    max-width: 640px;
+    font-size: var(--fs-lead);
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  .offices {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    padding: 0;
+    list-style: none;
+  }
+
+  .office {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-6) var(--space-5) var(--space-6) 0;
+    border-bottom: var(--border-hairline) solid var(--blue-200);
+  }
+
+  .office__role {
+    color: var(--blue-500);
+  }
+
+  .office__country {
+    font-size: var(--fs-h3);
+    color: var(--ven-blue);
+  }
+
+  .company__certifications {
+    margin-top: var(--space-5);
+    color: var(--ink-soft);
+  }
+</style>
