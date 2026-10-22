@@ -1,0 +1,41 @@
+---
+interface Props {
+  title: string;
+  label?: string;
+  level?: 'h1' | 'h2';
+  ruled?: boolean;
+  id?: string;
+}
+
+const { title, label, level: Heading = 'h2', ruled = true, id } = Astro.props;
+---
+
+<div class:list={['section-header', { 'section-header--ruled': ruled }]}>
+  <Heading class="section-header__title" id={id}>{title}</Heading>
+  {label && <span class="label section-header__label">{label}</span>}
+</div>
+
+<style>
+  .section-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-4);
+  }
+
+  .section-header--ruled {
+    border-bottom: var(--border-rule) solid var(--ven-blue);
+    padding-bottom: var(--space-4);
+  }
+
+  .section-header__title {
+    font-size: var(--fs-h2);
+    letter-spacing: var(--ls-head);
+    color: var(--ven-blue);
+  }
+
+  .section-header__label {
+    color: var(--blue-500);
+  }
+</style>

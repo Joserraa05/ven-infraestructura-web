@@ -1,0 +1,49 @@
+---
+interface Props {
+  code: string;
+  title: string;
+}
+
+const { code, title } = Astro.props;
+---
+
+<li class="module-tile">
+  <span class="label module-tile__code">{code}</span>
+  <strong class="module-tile__title">{title}</strong>
+</li>
+
+<style>
+  .module-tile {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: var(--space-5);
+    background: var(--ven-blue);
+    color: var(--white);
+    transition:
+      background-color var(--dur-fast) var(--ease-out-ven),
+      color var(--dur-fast) var(--ease-out-ven);
+  }
+
+  .module-tile:hover {
+    background: var(--signal-yellow);
+    color: var(--ven-navy);
+  }
+
+  .module-tile__code {
+    color: var(--blue-200);
+    transition: color var(--dur-fast) var(--ease-out-ven);
+  }
+
+  .module-tile:hover .module-tile__code {
+    color: var(--ven-navy);
+  }
+
+  .module-tile__title {
+    font-weight: var(--fw-head);
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+</style>

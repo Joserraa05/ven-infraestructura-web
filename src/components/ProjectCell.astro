@@ -1,0 +1,63 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { Project } from '../i18n/utils';
+
+interface Props {
+  project: Project;
+}
+
+const PROJECT_IMAGES = import.meta.glob<{ default: ImageMetadata }>('../assets/projects/*.{jpg,jpeg,png,webp,avif}', {
+  eager: true,
+});
+
+const { project } = Astro.props;
+const image = PROJECT_IMAGES[`../assets/projects/${project.image}`]?.default;
+if (!image) {
+  throw new Error(`ProjectCell: image "${project.image}" not found in src/assets/projects/`);
+}
+---
+
+<figure class="project-cell">
+  <Image src={image} alt={project.alt} widths={[400, 800]} sizes="(min-width: 1024px) 33vw, 100vw" class="project-cell__image" />
+  <figcaption class="project-cell__caption">
+    <span class="label">{project.code}</span>
+    <span class="project-cell__title">{project.title}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .project-cell {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: var(--ven-blue);
+  }
+
+  .project-cell__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .project-cell__caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-4) var(--space-5);
+    background: var(--ven-blue);
+    color: var(--white);
+  }
+
+  .project-cell__caption .label {
+    color: var(--blue-200);
+  }
+
+  .project-cell__title {
+    font-weight: var(--fw-head);
+  }
+</style>

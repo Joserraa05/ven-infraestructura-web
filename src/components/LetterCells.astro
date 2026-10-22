@@ -1,0 +1,151 @@
+---
+interface Props {
+  /** Full sentence for assistive tech; the animated cells are decorative. */
+  heading: string;
+  words: string[];
+}
+
+const CELL_COUNT = 11;
+
+const { heading, words } = Astro.props;
+const [firstWord = ''] = words;
+const tooLong = words.find((word) => [...word].length > CELL_COUNT);
+if (tooLong) {
+  throw new Error(`LetterCells: "${tooLong}" doesn't fit in ${CELL_COUNT} cells`);
+}
+const initialLetters = Array.from({ length: CELL_COUNT }, (_, index) => [...firstWord][index] ?? '');
+---
+
+<h1 class="letter-cells" data-letter-cells data-words={JSON.stringify(words)}>
+  <span class="sr-only">{heading}</span>
+  <span class="letter-cells__grid" aria-hidden="true">
+    {initialLetters.map((letter) => <span class="letter-cells__cell">{letter}</span>)}
+  </span>
+</h1>
+
+<style>
+  .letter-cells {
+    font-weight: var(--fw-head);
+    letter-spacing: normal;
+  }
+
+  .letter-cells__grid {
+    display: grid;
+    grid-template-columns: repeat(11, minmax(0, 1fr));
+    border-top: var(--border-hairline) solid var(--rule-on-blue);
+    border-left: var(--border-hairline) solid var(--rule-on-blue);
+  }
+
+  .letter-cells__cell {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: var(--border-hairline) solid var(--rule-on-blue);
+    border-bottom: var(--border-hairline) solid var(--rule-on-blue);
+    background: var(--ven-blue);
+    color: var(--white);
+    font-size: var(--fs-cell);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    transition:
+      background-color var(--dur-fast) var(--ease-out-ven),
+      color var(--dur-fast) var(--ease-out-ven);
+  }
+
+  /* Corner mark from the brand kit: 5 px square bracket, top-left of each cell. */
+  .letter-cells__cell::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    width: 5px;
+    height: 5px;
+    border-left: var(--border-hairline) solid var(--corner-on-blue);
+    border-top: var(--border-hairline) solid var(--corner-on-blue);
+  }
+
+  .letter-cells__cell.is-scanning {
+    color: var(--blue-300);
+  }
+
+  .letter-cells__cell.is-locked {
+    background: var(--signal-yellow);
+    color: var(--ven-navy);
+  }
+
+  .letter-cells__cell:hover {
+    background: var(--white);
+    color: var(--ven-blue);
+  }
+</style>
+
+<script>
+  const TICK_MS = 45;
+  const FIRST_LOCK_TICK = 6;
+  const TICKS_BETWEEN_CELLS = 3;
+  const HIGHLIGHT_TICKS = 6;
+  const BLANK_TICKS = 2;
+  const TICKS_PER_WORD = 120;
+  const SCRAMBLE_CHARS = 'abcdefghijklmnopqrstuvwxyz0123456789/+';
+
+  function randomChar(): string {
+    return SCRAMBLE_CHARS.charAt(Math.floor(Math.random() * SCRAMBLE_CHARS.length));
+  }
+
+  function animate(root: HTMLElement) {
+    const words: string[] = JSON.parse(root.dataset.words ?? '[]');
+    const cells = [...root.querySelectorAll<HTMLElement>('.letter-cells__cell')];
+    if (words.length < 2 || cells.length === 0) return;
+
+    let wordIndex = 0;
+    let tick = 0;
+    let timer: number | undefined;
+
+    function paint() {
+      const letters = [...(words[wordIndex] ?? '')];
+      cells.forEach((cell, index) => {
+        const target = letters[index] ?? '';
+        const lockTick = FIRST_LOCK_TICK + index * TICKS_BETWEEN_CELLS;
+        const isScanning = target !== '' && tick < lockTick;
+        const isLocked = target !== '' && !isScanning && tick < lockTick + HIGHLIGHT_TICKS;
+
+        if (isScanning) {
+          cell.textContent = tick < BLANK_TICKS ? '' : randomChar();
+        } else {
+          cell.textContent = target;
+        }
+        cell.classList.toggle('is-scanning', isScanning);
+        cell.classList.toggle('is-locked', isLocked);
+      });
+    }
+
+    function step() {
+      tick++;
+      if (tick > TICKS_PER_WORD) {
+        tick = 0;
+        wordIndex = (wordIndex + 1) % words.length;
+      }
+      paint();
+    }
+
+    function start() {
+      timer ??= window.setInterval(step, TICK_MS);
+    }
+
+    function stop() {
+      window.clearInterval(timer);
+      timer = undefined;
+    }
+
+    // The server already rendered the first word: resume as if it had just settled.
+    tick = FIRST_LOCK_TICK + (cells.length - 1) * TICKS_BETWEEN_CELLS + HIGHLIGHT_TICKS;
+
+    new IntersectionObserver(([entry]) => (entry?.isIntersecting ? start() : stop())).observe(root);
+  }
+
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<HTMLElement>('[data-letter-cells]').forEach(animate);
+  }
+</script>

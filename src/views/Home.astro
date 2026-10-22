@@ -1,0 +1,353 @@
+---
+import Base from '../layouts/Base.astro';
+import ButtonLink from '../components/ButtonLink.astro';
+import LetterCells from '../components/LetterCells.astro';
+import ModuleTile from '../components/ModuleTile.astro';
+import PhaseTimeline from '../components/PhaseTimeline.astro';
+import ProjectCell from '../components/ProjectCell.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ServiceColumn from '../components/ServiceColumn.astro';
+import { getDictionary, getPath, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const FEATURED_PROJECTS = 3;
+
+const { lang } = Astro.props;
+const { hero, services, method, projects, team, scope, clients } = getDictionary(lang);
+const featuredProjects = projects.items.slice(0, FEATURED_PROJECTS);
+const titlesOf = (items: { title: string }[]) => items.map((item) => item.title);
+---
+
+<Base lang={lang} page="home">
+  <section class="hero blueprint on-blue">
+    <div class="container hero__inner">
+      <p class="label hero__scale fade fade--1">{hero.scale}</p>
+
+      <LetterCells heading={hero.h1} words={hero.words} />
+
+      <p class="hero__tagline fade fade--2" aria-hidden="true">
+        <span>{hero.taglineA}</span>
+        <span>{hero.taglineB}</span>
+      </p>
+
+      <div class="hero__highlights fade fade--2">
+        <ul>
+          {
+            hero.highlights.map((highlight) => (
+              <li>
+                <span class="hero__highlight-mark" aria-hidden="true" />
+                {highlight}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="hero__footer fade fade--3">
+        <p class="hero__lead">{hero.lead}</p>
+        <div class="hero__actions">
+          <a class="link" href={getPath(lang, 'home', 'services')}>{hero.ctaSecondary}</a>
+          <ButtonLink href={getPath(lang, 'contact')} variant="inverse">{hero.ctaPrimary}</ButtonLink>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container services" id="services" aria-labelledby="services-title">
+    <SectionHeader id="services-title" title={services.title} />
+    <div class="services__grid">
+      <ServiceColumn title={services.electric.title} items={titlesOf(services.electric.items)} />
+      <ServiceColumn title={services.civil.title} items={titlesOf(services.civil.items)} />
+    </div>
+  </section>
+
+  <section class="container method" id="method" aria-labelledby="method-title">
+    <SectionHeader id="method-title" title={method.title} ruled={false} />
+    <PhaseTimeline phases={method.phases} />
+  </section>
+
+  {
+    featuredProjects.length > 0 && (
+      <section class="container projects" id="projects" aria-labelledby="projects-title">
+        <SectionHeader id="projects-title" title={projects.title} />
+        <div class="projects__grid">
+          {featuredProjects.map((project) => (
+            <ProjectCell project={project} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <section class="container team" id="team" aria-labelledby="team-title">
+    <SectionHeader id="team-title" title={team.title} />
+    <p class="section-lead">{team.lead}</p>
+    <ul class="team__members">
+      {team.members.map((member) => <ModuleTile code={member.role} title={member.name} />)}
+    </ul>
+  </section>
+
+  <section class="scope blueprint on-blue" aria-labelledby="scope-title">
+    <div class="container scope__inner">
+      <h2 class="scope__title" id="scope-title">
+        <span class="scope__word">{scope.a}</span>
+        <span class="chevron-mark" aria-hidden="true">‹</span>
+        <span class="scope__word">{scope.b}</span>
+      </h2>
+      <p class="label scope__offices">{scope.offices}</p>
+    </div>
+  </section>
+
+  <section class="container clients" id="clients" aria-labelledby="clients-title">
+    <SectionHeader id="clients-title" title={clients.title} />
+    <p class="section-lead">{clients.lead}</p>
+    <ul class="clients__grid">
+      {clients.items.map((client) => <li class="clients__cell">{client}</li>)}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .chevron-mark {
+    color: var(--signal-yellow);
+  }
+
+  /* Hero */
+  .hero__inner {
+    padding-block: var(--space-8) var(--space-9);
+  }
+
+  .hero__scale {
+    margin-bottom: var(--space-4);
+    text-align: center;
+    color: var(--blue-200);
+  }
+
+  .hero__tagline {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+    font-weight: var(--fw-head);
+    font-size: var(--fs-tagline);
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+  }
+
+  .hero__highlights {
+    --highlight-line-height: 1.3em;
+
+    display: flex;
+    margin-top: var(--space-6);
+    padding-top: var(--space-5);
+    border-top: var(--border-hairline) solid var(--rule-on-blue);
+  }
+
+  .hero__highlights ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: 0;
+    list-style: none;
+    font-weight: var(--fw-head);
+    font-size: var(--fs-h4);
+    letter-spacing: -0.02em;
+    line-height: var(--highlight-line-height);
+    color: var(--blue-100);
+  }
+
+  .hero__highlights li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  /* Centred on the first line of text, also when an item wraps. */
+  .hero__highlight-mark {
+    flex: none;
+    width: var(--space-3);
+    height: var(--space-3);
+    margin-top: calc((var(--highlight-line-height) - var(--space-3)) / 2);
+    background: var(--signal-yellow);
+  }
+
+  .hero__footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+  }
+
+  .hero__lead {
+    max-width: 440px;
+    font-size: var(--fs-lead);
+    line-height: 1.55;
+    color: var(--blue-100);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-5);
+    font-size: var(--fs-button);
+  }
+
+  .fade {
+    opacity: 0;
+    animation: fade-in 1.2s ease forwards;
+  }
+
+  .fade--1 {
+    animation-delay: 200ms;
+  }
+
+  .fade--2 {
+    animation-delay: 1200ms;
+  }
+
+  .fade--3 {
+    animation-delay: 1600ms;
+  }
+
+  @keyframes fade-in {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade {
+      animation: none;
+      opacity: 1;
+    }
+  }
+
+  /* White sections */
+  .services {
+    padding-block: var(--space-9) var(--space-8);
+  }
+
+  .services__grid {
+    display: grid;
+  }
+
+  @media (min-width: 1024px) {
+    .services__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .method {
+    padding-block: var(--space-8) var(--space-9);
+  }
+
+  .projects {
+    padding-block: 0 var(--space-9);
+  }
+
+  .projects__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 2px;
+    margin-top: var(--space-6);
+  }
+
+  /* Scope */
+  .scope__inner {
+    padding-block: var(--space-9);
+    text-align: center;
+  }
+
+  .scope__offices {
+    color: var(--blue-200);
+  }
+
+  .scope__title {
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 1;
+    letter-spacing: var(--ls-display);
+  }
+
+  .scope__word {
+    transition: letter-spacing var(--dur-spread) var(--ease-out-ven);
+  }
+
+  .scope__word:hover {
+    letter-spacing: 0.04em;
+  }
+
+  .scope__offices {
+    margin-top: var(--space-5);
+  }
+
+  /* Team and clients */
+  .team,
+  .clients {
+    padding-block: var(--space-9);
+  }
+
+  .team {
+    padding-top: 0;
+  }
+
+  .section-lead {
+    max-width: 520px;
+    margin-top: var(--space-5);
+    font-size: var(--fs-lead);
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  .team__members {
+    --tile-min: 140px;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--tile-min), 1fr));
+    gap: 2px;
+    margin-top: var(--space-6);
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 600px) {
+    .team__members {
+      --tile-min: 200px;
+    }
+  }
+
+  .clients__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    margin-top: var(--space-6);
+    padding: 0;
+    list-style: none;
+    border-top: var(--border-hairline) solid var(--blue-200);
+    border-left: var(--border-hairline) solid var(--blue-200);
+  }
+
+  .clients__cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+    padding: var(--space-5);
+    border-right: var(--border-hairline) solid var(--blue-200);
+    border-bottom: var(--border-hairline) solid var(--blue-200);
+    font-weight: var(--fw-head);
+    color: var(--ven-blue);
+    text-align: center;
+    transition: background-color var(--dur-fast) var(--ease-out-ven);
+  }
+
+  .clients__cell:hover {
+    background: var(--blue-25);
+  }
+</style>
