@@ -6,7 +6,7 @@ Lee primero `CLAUDE.md` (reglas del proyecto) y abre `design/referencia-inicio.h
 
 VEN Infraestructure: energía eléctrica y obra civil en España y Portugal.
 Público: compañías eléctricas, administraciones y promotores.
-La web debe (1) explicar las dos disciplinas, (2) conseguir peticiones de presupuesto y (3) dar acceso al equipo a la App VEN (enlace externo `[URL APP]`).
+La web debe (1) explicar las dos disciplinas, (2) presentar al equipo y a los clientes y (3) conseguir peticiones de presupuesto. La web no incluye nada de la App VEN.
 
 ## 2. Proyecto Astro
 
@@ -29,7 +29,7 @@ src/
   layouts/Base.astro                     (head, hreflang, fuentes, Header, Footer)
   components/
     Header.astro  MobileMenu.astro  LanguageSwitch.astro
-    LetterCells.astro  DimensionLine.astro  SectionHeader.astro
+    LetterCells.astro  SectionHeader.astro
     ServiceColumn.astro  PhaseTimeline.astro  ModuleTile.astro
     ButtonLink.astro  Footer.astro  QuoteForm.astro
   pages/
@@ -52,16 +52,17 @@ Las páginas de cada idioma deben ser finas: importan un componente de página c
 
 ## 4. Inicio — secciones en orden
 
-Réplica fiel de `design/referencia-inicio.html`, con estos componentes:
+Réplica fiel de `design/referencia-inicio.html` (salvo la sección y el botón de la App VEN, que se han retirado), con estos componentes:
 
-1. **Header** (fondo `--ven-blue`): logo blanco, menú en minúsculas (servicios, método, app ven, contacto), `LanguageSwitch`, botón blanco «acceso empleados» → `[URL APP]`. En móvil (<860 px) el menú pasa a un panel a pantalla completa azul.
-2. **Hero** (azul con cuadrícula de plano de 40 px): etiqueta mono «HOJA 01 — ÍNDICE · ESC. 1:1 · ES · PT»; `LetterCells`; debajo «energía eléctrica ‹ obra civil» a todo el ancho (chevron amarillo); `DimensionLine` ESPAÑA — PORTUGAL; entradilla y botón «pedir presupuesto» + enlace «ver servicios».
-3. **Servicios** (blanco): `SectionHeader` «dos disciplinas.» · «01 / SERVICIOS»; dos `ServiceColumn` (energía eléctrica, obra civil) con lista separada por líneas finas y una barra amarilla que crece de 12 a 48 px en hover.
-4. **Método** (blanco): «del plano a la obra.»; `PhaseTimeline` de 4 fases; el nodo cuadrado gira a rombo amarillo en hover.
+1. **Header** (fondo `--ven-blue`, fijo arriba al hacer scroll): logo blanco, menú en minúsculas (servicios, equipo, clientes, contacto), `LanguageSwitch`. En móvil (<860 px) el menú pasa a un panel a pantalla completa azul.
+2. **Hero** (azul con cuadrícula de plano de 40 px): etiqueta mono «ESC. 1:1» centrada; `LetterCells`; debajo «energía eléctrica» y «obra civil» a todo el ancho; sobre una línea fina, dos puntos a la izquierda con marca amarilla («españa y portugal», «eficacia y rapidez»); entradilla y botón «pedir presupuesto» + enlace «ver servicios».
+3. **Servicios** (blanco): `SectionHeader` «nuestras especializaciones.» (sin etiqueta; ninguna sección del Inicio lleva etiqueta numerada «0X / …»); dos `ServiceColumn` (energía eléctrica, obra civil) con lista separada por líneas finas y una barra amarilla que crece de 12 a 48 px en hover.
+4. **Método** (blanco): «del plano a la obra.»; `PhaseTimeline` de 4 fases (título y texto, sin código «Fase 0X»); el nodo cuadrado gira a rombo amarillo en hover.
 5. **Proyectos destacados** (blanco): 3 celdas cuadradas con foto + código de obra. Si `projects` está vacío en el JSON, la sección no se renderiza.
-6. **Ámbito** (azul): «españa ‹ portugal» grande; `letter-spacing` se abre en hover; sedes debajo.
-7. **App VEN** (blanco): «la obra, en el bolsillo.»; 5 `ModuleTile` azules que pasan a amarillo en hover; botón «entrar a la app».
-8. **Footer** (azul): «¿hablamos de tu obra?», email, teléfono, dirección, enlaces legales, `LanguageSwitch`.
+6. **Equipo** (blanco): «el equipo.»; un `ModuleTile` azul por persona (cargo + nombre) que pasa a amarillo en hover. Datos `[PENDIENTE]` hasta tenerlos.
+7. **Ámbito** (azul): «españa ‹ portugal» grande; `letter-spacing` se abre en hover; sedes debajo.
+8. **Clientes** (blanco): «para quién trabajamos.»; rejilla de celdas con línea fina, una por cliente. Nombres `[PENDIENTE]` hasta tenerlos.
+9. **Footer** (azul): «¿hablamos de tu obra?», email, botón «pedir presupuesto» → Contacto, teléfono, dirección, enlaces legales, `LanguageSwitch`.
 
 ## 5. LetterCells (firma de la marca)
 
@@ -80,7 +81,7 @@ La implementación de referencia está en el `<script>` de `design/referencia-in
 - **Servicios**: una ficha por servicio (título, descripción, alcance) agrupadas por disciplina. Textos `services.*`.
 - **Proyectos**: rejilla de celdas cuadradas; si no hay proyectos, mensaje «próximamente» (`projects.empty`).
 - **Empresa**: quiénes somos, sedes ES/PT, certificaciones `[PENDIENTE]`.
-- **Contacto**: `QuoteForm` con nombre, empresa, email, teléfono, país (ES/PT), tipo de servicio, mensaje y aceptación de privacidad. Envío a `[ENDPOINT FORMULARIO]` (deja la URL en una variable de entorno `PUBLIC_FORM_ENDPOINT`). Validación HTML nativa, mensajes de error de los JSON.
+- **Contacto**: `QuoteForm` con nombre, empresa, email, teléfono, país (España, Portugal, ambos), tipo de servicio (energía eléctrica, obra civil, ambos, otros), mensaje y aceptación de privacidad. Envío a `[ENDPOINT FORMULARIO]` (deja la URL en una variable de entorno `PUBLIC_FORM_ENDPOINT`). Validación HTML nativa, mensajes de error de los JSON.
 - **Legal**: aviso legal, privacidad y cookies con texto `[PENDIENTE]` hasta tener los definitivos.
 
 ## 7. Diseño
