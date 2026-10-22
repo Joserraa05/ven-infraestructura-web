@@ -6,7 +6,10 @@
     "services": { "title": "Serviços · VEN Infraestructure", "description": "Redes de média e baixa tensão, postos de transformação, iluminação pública e obra civil." },
     "projects": { "title": "Projetos · VEN Infraestructure", "description": "Obras de energia elétrica e obra civil realizadas pela VEN Infraestructure." },
     "company": { "title": "Empresa · VEN Infraestructure", "description": "Quem somos e onde trabalhamos: Espanha e Portugal." },
-    "contact": { "title": "Contacto · VEN Infraestructure", "description": "Peça um orçamento para a sua obra de energia elétrica ou obra civil." }
+    "contact": { "title": "Contacto · VEN Infraestructure", "description": "Peça um orçamento para a sua obra de energia elétrica ou obra civil." },
+    "legal": { "title": "Aviso legal · VEN Infraestructure", "description": "Aviso legal da VEN Infraestructure." },
+    "privacy": { "title": "Política de privacidade · VEN Infraestructure", "description": "Como a VEN Infraestructure trata os seus dados pessoais." },
+    "cookies": { "title": "Política de cookies · VEN Infraestructure", "description": "Utilização de cookies no site da VEN Infraestructure." }
   },
   "routes": {
     "home": "",
@@ -21,72 +24,120 @@
   "nav": {
     "services": "serviços",
     "method": "método",
-    "app": "app ven",
     "contact": "contacto",
-    "employees": "acesso colaboradores",
+    "projects": "projetos",
+    "company": "empresa",
+    "team": "equipa",
+    "clients": "clientes",
     "menu": "menu",
     "close": "fechar",
     "language": "Idioma",
-    "home": "VEN infraestructure, início"
+    "home": "VEN infraestructure, início",
+    "main": "Principal",
+    "skip": "Saltar para o conteúdo"
+  },
+  "languages": {
+    "es": { "code": "ES", "name": "Español" },
+    "pt": { "code": "PT", "name": "Português" }
   },
   "hero": {
     "h1": "A VEN constrói energia elétrica e obra civil em Espanha e Portugal.",
-    "sheet": ["Folha 01 — Índice", "Esc. 1:1", "ES · PT"],
+    "scale": "Esc. 1:1",
     "words": ["construímos", "ligamos", "iluminamos", "canalizamos", "projetamos"],
     "taglineA": "energia elétrica",
     "taglineB": "obra civil",
-    "dimLeft": "Espanha",
-    "dimRight": "Portugal",
+    "highlights": ["espanha e portugal", "eficácia e rapidez"],
     "lead": "Projetamos, executamos e mantemos infraestruturas elétricas e civis. Com a precisão de uma planta.",
     "ctaPrimary": "pedir orçamento",
     "ctaSecondary": "ver serviços"
   },
   "services": {
-    "title": "duas disciplinas.",
-    "label": "01 / Serviços",
+    "title": "as nossas especializações.",
+    "sheet": "Folha 02 — Serviços",
+    "descriptionLabel": "Descrição",
+    "scopeLabel": "Âmbito",
     "electric": {
+      "label": "01 / Energia elétrica",
       "title": "energia elétrica",
-      "items": ["Redes de média e baixa tensão", "Postos de transformação", "Iluminação pública", "[PENDENTE]"]
+      "items": [
+        { "title": "Redes de média e baixa tensão", "description": "[PENDENTE]", "scope": "[PENDENTE]" },
+        { "title": "Postos de transformação", "description": "[PENDENTE]", "scope": "[PENDENTE]" },
+        { "title": "Iluminação pública", "description": "[PENDENTE]", "scope": "[PENDENTE]" },
+        { "title": "[PENDENTE]", "description": "[PENDENTE]", "scope": "[PENDENTE]" }
+      ]
     },
     "civil": {
+      "label": "02 / Obra civil",
       "title": "obra civil",
-      "items": ["Canalizações e valas", "Fundações e caixas de visita", "Urbanização e reposição de pavimentos", "[PENDENTE]"]
+      "items": [
+        { "title": "Canalizações e valas", "description": "[PENDENTE]", "scope": "[PENDENTE]" },
+        { "title": "Fundações e caixas de visita", "description": "[PENDENTE]", "scope": "[PENDENTE]" },
+        { "title": "Urbanização e reposição de pavimentos", "description": "[PENDENTE]", "scope": "[PENDENTE]" },
+        { "title": "[PENDENTE]", "description": "[PENDENTE]", "scope": "[PENDENTE]" }
+      ]
     }
   },
   "method": {
     "title": "da planta à obra.",
-    "label": "02 / Método",
     "phases": [
-      { "code": "Fase 01", "title": "estudo", "text": "Visita, levantamento e viabilidade técnica." },
-      { "code": "Fase 02", "title": "projeto", "text": "Plantas, medições e licenciamento." },
-      { "code": "Fase 03", "title": "execução", "text": "Equipas próprias, relatórios diários e controlo de obra." },
-      { "code": "Fase 04", "title": "entrega", "text": "Documentação final e manutenção." }
+      { "title": "estudo", "text": "Visita, levantamento e viabilidade técnica." },
+      { "title": "projeto", "text": "Plantas, medições e licenciamento." },
+      { "title": "execução", "text": "Equipas próprias, relatórios diários e controlo de obra." },
+      { "title": "entrega", "text": "Documentação final e manutenção." }
     ]
   },
   "projects": {
     "title": "obras recentes.",
-    "label": "03 / Projetos",
+    "sheet": "Folha 03 — Projetos",
     "empty": "Em breve publicaremos as nossas obras.",
     "items": []
   },
   "scope": {
-    "label": "04 / Âmbito",
     "a": "espanha",
     "b": "portugal",
     "offices": "Sede · [PENDENTE] — Delegação · [PENDENTE]"
   },
-  "app": {
-    "title": "a obra, no bolso.",
-    "label": "05 / App VEN",
-    "lead": "A app interna da equipa VEN. Tudo o que é do dia a dia, em cinco módulos.",
-    "modules": [
-      { "code": "M.01", "title": "registo de ponto" },
-      { "code": "M.02", "title": "relatórios de trabalho" },
-      { "code": "M.03", "title": "recibos de vencimento" },
-      { "code": "M.04", "title": "documentos" },
-      { "code": "M.05", "title": "plantas de obra" }
+  "team": {
+    "title": "a equipa.",
+    "lead": "[PENDENTE]",
+    "members": [
+      { "role": "[PENDENTE]", "name": "[PENDENTE]" },
+      { "role": "[PENDENTE]", "name": "[PENDENTE]" },
+      { "role": "[PENDENTE]", "name": "[PENDENTE]" }
+    ]
+  },
+  "clients": {
+    "title": "para quem trabalhamos.",
+    "lead": "Empresas de eletricidade, administrações públicas e promotores em Espanha e Portugal.",
+    "items": ["[PENDENTE]", "[PENDENTE]", "[PENDENTE]", "[PENDENTE]"]
+  },
+  "company": {
+    "sheet": "Folha 04 — Empresa",
+    "title": "quem somos.",
+    "intro": "[PENDENTE]",
+    "officesTitle": "sedes.",
+    "officesLabel": "Espanha · Portugal",
+    "offices": [
+      { "country": "Espanha", "role": "Sede", "address": "[PENDENTE]" },
+      { "country": "Portugal", "role": "Delegação", "address": "[PENDENTE]" }
     ],
-    "cta": "entrar na app"
+    "certificationsTitle": "certificações.",
+    "certificationsLabel": "Qualidade · Segurança",
+    "certifications": "[PENDENTE]"
+  },
+  "contact": {
+    "detailsTitle": "dados de contacto.",
+    "detailsLabel": "Espanha · Portugal",
+    "emailLabel": "Email",
+    "phoneLabel": "Telefone",
+    "addressLabel": "Morada"
+  },
+  "legal": {
+    "sheet": "Legal",
+    "legalTitle": "aviso legal.",
+    "privacyTitle": "política de privacidade.",
+    "cookiesTitle": "política de cookies.",
+    "body": "[PENDENTE]"
   },
   "footer": {
     "title": "falamos da sua obra?",
@@ -96,7 +147,9 @@
     "legal": "aviso legal",
     "privacy": "privacidade",
     "cookies": "cookies",
-    "copyright": "© 2026 VEN Infraestructure"
+    "copyright": "© 2026 VEN Infraestructure",
+    "cta": "pedir orçamento",
+    "navLabel": "Rodapé"
   },
   "form": {
     "title": "peça o seu orçamento.",
@@ -107,12 +160,17 @@
     "country": "País",
     "countryES": "Espanha",
     "countryPT": "Portugal",
+    "countryBoth": "Ambos",
     "service": "Tipo de serviço",
     "serviceElectric": "Energia elétrica",
     "serviceCivil": "Obra civil",
     "serviceBoth": "Ambos",
+    "serviceOther": "Outros",
+    "choose": "Selecione uma opção",
     "message": "Fale-nos da sua obra",
-    "privacy": "Li e aceito a política de privacidade",
+    "optional": "opcional",
+    "privacyPrefix": "Li e aceito a",
+    "privacyLink": "política de privacidade",
     "submit": "enviar pedido",
     "sending": "a enviar…",
     "success": "Obrigado. Responderemos em breve.",
