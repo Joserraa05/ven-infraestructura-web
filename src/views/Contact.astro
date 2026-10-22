@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import { getDictionary, isPending, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { contact, form, footer } = getDictionary(lang);
+const hasEmail = !isPending(lang, footer.email);
+const details = [
+  { label: contact.phoneLabel, value: footer.phone },
+  { label: contact.addressLabel, value: footer.address },
+];
+---
+
+<Base lang={lang} page="contact">
+  <PageHeader title={form.title} />
+
+  <div class="container contact">
+    <QuoteForm lang={lang} />
+
+    <aside class="contact__details" aria-labelledby="contact-details-title">
+      <SectionHeader id="contact-details-title" title={contact.detailsTitle} label={contact.detailsLabel} />
+      <dl>
+        <div>
+          <dt class="label">{contact.emailLabel}</dt>
+          <dd>{hasEmail ? <a class="link" href={`mailto:${footer.email}`}>{footer.email}</a> : footer.email}</dd>
+        </div>
+        {
+          details.map((detail) => (
+            <div>
+              <dt class="label">{detail.label}</dt>
+              <dd>{detail.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </aside>
+  </div>
+</Base>
+
+<style>
+  .contact {
+    display: grid;
+    gap: var(--space-9);
+    padding-block: var(--space-9);
+  }
+
+  @media (min-width: 1024px) {
+    .contact {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: var(--space-8);
+    }
+  }
+
+  .contact__details dl div {
+    padding-block: var(--space-4);
+    border-bottom: var(--border-hairline) solid var(--blue-50);
+  }
+
+  .contact__details dt {
+    color: var(--blue-500);
+  }
+
+  .contact__details dd {
+    margin-top: var(--space-1);
+    font-weight: var(--fw-head);
+    color: var(--ven-navy);
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { getDictionary, type Lang } from '../i18n/utils';
+
+type LegalPage = 'legal' | 'privacy' | 'cookies';
+
+interface Props {
+  lang: Lang;
+  page: LegalPage;
+}
+
+const { lang, page } = Astro.props;
+const { legal } = getDictionary(lang);
+const titles: Record<LegalPage, string> = {
+  legal: legal.legalTitle,
+  privacy: legal.privacyTitle,
+  cookies: legal.cookiesTitle,
+};
+---
+
+<Base lang={lang} page={page}>
+  <PageHeader label={legal.sheet} title={titles[page]} />
+
+  <div class="container section">
+    <p class="legal__body">{legal.body}</p>
+  </div>
+</Base>
+
+<style>
+  .legal__body {
+    max-width: 720px;
+    color: var(--ink-soft);
+  }
+</style>
